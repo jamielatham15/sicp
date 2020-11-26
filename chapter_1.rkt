@@ -77,4 +77,67 @@ circumference
 
 ; 1.1.5 The substitution model for procedure application
 
+; The interpreter evaluates the elements of the combination and applies the procedure (the value of the operator of the combination) to the arguements (the values of the 
+; operands of the combination).
+
+; Normal order evaluation method: "fully expand then reduce"
+; Applicative order evaluation: "evaluate the arguments then apply"
+; Lisp is applicative order.
+
+; 1.1.6 Conditional Expressions and Predicates
+
+(define (abs x)
+    (cond   ((> x 0) x)
+            ((= x 0) 0)
+            ((< x 0) (- x))
+    )
+)
+
+(abs -1)
+(abs 0)
+(abs 1)
+
+; cond is followed by parenthesized pairs of expressions (<p> <e>) called clauses
+; the first expression in each pair is a predicate, that is, an expression whose value is 
+; interpreted as either true or false
+
+; each condition is evaluated until a predicate returns the value true.
+; if none of the conditions is found to be true, cond remains undefined.
+
+; another form using else:
+(define (abs x)
+    (cond   ((< x 0) (- x)
+            (else x))))
+; else causes the cond to return as its value the value of the corresponding <e> whenever
+; all previous clauses have been bypassed
+
+; and another using if:
+(define (abs x)
+    (if (< x 0)
+        (- x)
+        x))
+
+; if is a restricted conditional used when there are precisely two cases in the analysis
+; follows the form: (if <predicate> <consequent> <alternative>)
+
+;  in addition to < > =, there are other logical comparison operators, the most common being: 
+
+; and: expressions evaluates left to right. if any <e> evaluates to false, the value of 
+; the expression is false and the remainder are not evaluated. If all are true, the expression is the value of the last one.
+
+; or: expressions are evaluated one at a time, l to r order. If any <e> evaluates to true, that value is returned as the value of the expression, and the remainder are not
+; evaluated.
+
+; not: the value of a not expression is true when the expression <e> evaluates to false, 
+; and false otherwise.
+
+; and and or are special forms, not procedures, because the subexpressions are not all 
+; necessarily evaluated. not is an ordinary procedure.
+
+; 5 < x < 10 may be expresssed as:
+(and (> x 5) (< x 10))
+
+; define a greater or equal predicate 
+(define (>= x y) (or (> x y) (= x y)))
+
 
